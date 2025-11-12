@@ -1,0 +1,39 @@
+import socket
+
+def get_ip_from_hostname():
+    hostname = input("Enter the Hostname (e.g., www.google.com): ")
+    try:
+        ip = socket.gethostbyname(hostname)
+        print(f"IP address of {hostname} is: {ip}")
+    except socket.gaierror:
+        print("Invalid Hostname or unable to resolve!")
+
+def get_hostname_from_ip():
+    ip_address = input("Enter the IP Address (e.g., 142.250.183.196): ")
+    try:
+        host = socket.gethostbyaddr(ip_address)
+        print(f"Hostname for IP {ip_address} is: {host[0]}")
+    except socket.herror:
+        print("Invalid IP Address or unable to resolve!")
+
+def main():
+    while True:
+        print("\n===== DNS Lookup Menu =====")
+        print("1. Find IP Address from Hostname")
+        print("2. Find Hostname from IP Address")
+        print("3. Exit")
+        
+        choice = input("Enter your choice (1-3): ")
+
+        if choice == "1":
+            get_ip_from_hostname()
+        elif choice == "2":
+            get_hostname_from_ip()
+        elif choice == "3":
+            print("Exiting... Goodbye!")
+            break
+        else:
+            print("Invalid choice! Please enter 1, 2, or 3.")
+
+if __name__ == "__main__":
+    main()
