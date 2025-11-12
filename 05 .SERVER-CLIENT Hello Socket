@@ -1,4 +1,4 @@
-Create files : 
+/* Create files : 
 nano TCPServer.java
 nano TCPClient.java
 
@@ -7,10 +7,10 @@ javac TCPServer.java
 javac TCPClient.java
 
 java TCPServer
-java TCPClient
+java TCPClient */
 
 
-TCP server (JAVA)
+//TCP server (JAVA)
 // TCP Server Program
 import java.io.*;
 import java.net.*;
@@ -81,4 +81,13 @@ public class TCPClient {
         }
     }
 }
+
+-----------------------------------------------------------
+The server creates a ServerSocket on port 12345 and waits for a client using accept().
+The client connects using a Socket("localhost", 12345) and sends a message through the output stream.
+The server reads it using BufferedReader and sends a reply using PrintWriter.
+Both then close the connection.
+
+
+
 
