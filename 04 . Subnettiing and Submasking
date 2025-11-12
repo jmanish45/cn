@@ -1,0 +1,145 @@
+
+def get_ip_class(first_octet):
+    first_octet = int(first_octet)
+    if 1 <= first_octet <= 126:
+        return "Class A"
+    elif 128 <= first_octet <= 191:
+        return "Class B"
+    elif 192 <= first_octet <= 223:
+        return "Class C"
+    elif 224 <= first_octet <= 239:
+        return "Class D (Broadcast)"
+    elif 240 <= first_octet <= 255:
+        return "Class E (Reserved)"
+    else:
+        return "Invalid Range"
+
+def calculate_subnet_info(prefix):
+    
+    mask_bits = "1" * prefix + "0" * (32 - prefix)
+    subnet_mask = [str(int(mask_bits[i:i+8], 2)) for i in range(0, 32, 8)]
+
+    
+    host_bits = 32 - prefix
+    total_ips = 2 ** host_bits
+    usable_hosts = total_ips - 2  # remove network & broadcast
+
+    return ".".join(subnet_mask), total_ips, usable_hosts
+
+def main():
+    
+    ip = input("Enter IP address (e.g., 192.168.1.0): ")
+    prefix = int(input("Enter prefix length (e.g., 24 for /24): "))
+
+    first_octet = ip.split(".")[0]
+    ip_class = get_ip_class(first_octet)
+
+    subnet_mask, total_ips, usable_hosts = calculate_subnet_info(prefix)
+
+    print("\n--- Subnet Details ---")
+    print("IP Address Class   :", ip_class)
+    print("CIDR Notation      :", f"/{prefix}")
+    print("Subnet Mask        :", subnet_mask)
+    print("Total IP Addresses :", total_ips)
+    print("Usable Host IPs    :", usable_hosts)
+    print("------------------------")
+
+if __name__ == "__main__":
+    main()
+
+#------------------------------ Code Ends Here, Iske age ka mat copy kerlena chutiye  ------------------------------------------------------------------
+
+How This Version Works (In Simple English)
+
+| Line                                             | What it Does                                                           |
+| ------------------------------------------------ | ---------------------------------------------------------------------- |
+| `mask_bits = "1" * prefix + "0" * (32 - prefix)` | Creates a 32-bit binary string with network bits = 1 and host bits = 0 |
+| `int(mask_bits[i:i+8], 2)`                       | Converts each group of 8 bits into a decimal octet                     |
+| `total_ips = 2 ** host_bits`                     | Calculates total number of addresses                                   |
+| `usable_hosts = total_ips - 2`                   | Removes network + broadcast addresses                                  |
+| `get_ip_class()`                                 | Determines class based on first octet                                  |
+
+
+
+------------------------------------------------C++ Jindabad ------------------------------------------------------------------------
+
+
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include <sstream>
+using namespace std;
+
+
+string getIPClass(int first_octet) {
+    if (first_octet >= 1 && first_octet <= 126)
+        return "Class A";
+    else if (first_octet >= 128 && first_octet <= 191)
+        return "Class B";
+    else if (first_octet >= 192 && first_octet <= 223)
+        return "Class C";
+    else if (first_octet >= 224 && first_octet <= 239)
+        return "Class D (Multicast)";
+    else if (first_octet >= 240 && first_octet <= 255)
+        return "Class E (Reserved)";
+    else
+        return "Invalid Range";
+}
+
+
+void calculateSubnetInfo(int prefix) {
+    int hostBits = 32 - prefix;
+    int totalIPs = pow(2, hostBits);
+    int usableHosts = totalIPs - 2;
+
+    
+    string maskBits = string(prefix, '1') + string(32 - prefix, '0');
+
+    
+    vector<int> maskOctets;
+    for (int i = 0; i < 32; i += 8) {
+        string octetBits = maskBits.substr(i, 8);
+        int octetValue = stoi(octetBits, nullptr, 2);
+        maskOctets.push_back(octetValue);
+    }
+
+    
+    cout << "\n--- Subnet Details ---" << endl;
+    cout << "CIDR Notation      : /" << prefix << endl;
+    cout << "Subnet Mask        : "
+         << maskOctets[0] << "." << maskOctets[1] << "."
+         << maskOctets[2] << "." << maskOctets[3] << endl;
+    cout << "Total IP Addresses : " << totalIPs << endl;
+    cout << "Usable Host IPs    : " << usableHosts << endl;
+}
+
+
+int main() {
+    string ip;
+    int prefix;
+
+    cout << "=== Simple Subnetting Calculator ===\n" << endl;
+
+    cout << "Enter IP address (e.g., 192.168.1.0): ";
+    cin >> ip;
+
+    cout << "Enter prefix length (e.g., 24 for /24): ";
+    cin >> prefix;
+
+    
+    stringstream ss(ip);
+    string part;
+    getline(ss, part, '.');
+    int first_octet = stoi(part);
+
+    string ipClass = getIPClass(first_octet);
+    cout << "\nIP Address Class   : " << ipClass << endl;
+
+    
+    calculateSubnetInfo(prefix);
+
+    cout << "------------------------" << endl;
+    return 0;
+}
+
+
