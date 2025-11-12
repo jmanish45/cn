@@ -1,0 +1,84 @@
+Create files : 
+nano TCPServer.java
+nano TCPClient.java
+
+Compile Both Java Files
+javac TCPServer.java
+javac TCPClient.java
+
+java TCPServer
+java TCPClient
+
+
+TCP server (JAVA)
+// TCP Server Program
+import java.io.*;
+import java.net.*;
+
+public class TCPServer {
+    public static void main(String[] args) {
+        try {
+            // Step 1: Create server socket on a specific port
+            ServerSocket serverSocket = new ServerSocket(12345);
+            System.out.println("Server started. Waiting for client...");
+
+            // Step 2: Accept client connection
+            Socket socket = serverSocket.accept();
+            System.out.println("Client connected!");
+
+            // Step 3: Create input/output streams for communication
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+            // Step 4: Receive message from client
+            String msg = in.readLine();
+            System.out.println("Client says: " + msg);
+
+            // Step 5: Send reply to client
+            out.println("Server received: " + msg);
+
+            // Step 6: Close all connections
+            in.close();
+            out.close();
+            socket.close();
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+TCP Client
+// TCP Client Program
+import java.io.*;
+import java.net.*;
+
+public class TCPClient {
+    public static void main(String[] args) {
+        try {
+            // Step 1: Connect to server (IP + port)
+            Socket socket = new Socket("localhost", 12345);
+            System.out.println("Connected to server!");
+
+            // Step 2: Create input/output streams
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+            // Step 3: Send message to server
+            out.println("Hello, Server!");
+
+            // Step 4: Receive reply from server
+            String reply = in.readLine();
+            System.out.println("Server says: " + reply);
+
+            // Step 5: Close connection
+            in.close();
+            out.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
