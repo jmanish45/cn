@@ -1,0 +1,200 @@
+Here are **simple, clear, exam-ready notes** for the practical **“Study and Analyze the Performance of HTTP & FTP Protocols”** — exactly what you need for your journal + viva.
+(I’m giving you *clean theory + practical explanation + observation points + viva answers*.)
+
+---
+
+# 📘 **HTTP & FTP Performance Analysis — Practical Notes**
+
+---
+
+# 🔹 **1. What is HTTP? (HyperText Transfer Protocol)**
+
+**HTTP = application layer protocol used for web browsing.**
+Used to transfer **webpages, images, scripts, API responses**, etc.
+
+### 🧩 Key Features:
+
+* **Connection type:** Uses TCP (port **80**)
+* **Stateless:** Each request is independent
+* **Faster than FTP** for web content
+* **Supports caching**, reducing load
+* **Data is visible (plain text)** unless HTTPS is used
+* **Used mainly between Browser ↔ Web Server**
+
+### 🖥️ Working:
+
+1. Client sends HTTP request:
+   `GET /index.html HTTP/1.1`
+2. Server processes request
+3. Server returns HTTP response with data
+4. Connection closes (in HTTP 1.0) or kept alive (HTTP 1.1)
+
+---
+
+# 🔹 **2. What is FTP? (File Transfer Protocol)**
+
+**FTP = protocol used to upload/download files between client and server.**
+
+### 🧩 Key Features:
+
+* **Uses TCP**, but on two different ports:
+
+  * **Port 21:** Control connection
+  * **Port 20:** Data transfer
+* Requires **authentication** (username/password)
+* Can transfer **large files** reliably
+* Slower than HTTP because:
+
+  * Uses **2 connections**
+  * Has **extra overhead** for control commands
+
+### 🖥️ Working:
+
+1. Client connects to server on **port 21**
+2. User logs in
+3. Server opens a **separate data connection** on port 20
+4. Files are uploaded/downloaded
+5. Both connections close
+
+---
+
+# 🔹 **3. Difference Between HTTP & FTP**
+
+| Feature        | HTTP                     | FTP                           |
+| -------------- | ------------------------ | ----------------------------- |
+| Purpose        | Transfer webpage content | Transfer files                |
+| Port           | 80                       | 21 (control), 20 (data)       |
+| Connection     | Single TCP connection    | Two separate TCP connections  |
+| Authentication | Not required             | Required (mostly)             |
+| Speed          | Faster for small files   | Better for large files        |
+| Security       | Less secure              | FTP insecure → FTPS/SFTP used |
+
+---
+
+# 🔹 **4. Performance Analysis (Practical Explanation)**
+
+In this practical, you measure **speed, delay, and behavior** of HTTP and FTP.
+
+You can use:
+
+* Packet Tracer
+* Wireshark
+* Browser DevTools
+* FTP client (FileZilla / cmd)
+
+### ✔️ **What you observe for HTTP:**
+
+* HTTP uses **only one TCP connection**
+* Request/response is lightweight
+* Small files load faster
+* Latency depends on server response time
+* DNS lookup → TCP handshake → GET → Response
+
+### ✔️ **What you observe for FTP:**
+
+* FTP takes more time initially because:
+
+  * Login/authentication
+  * Opens **additional data channel**
+* Large file transfer is usually **more stable but slower**
+* Shows clear separation of:
+
+  * Control packets
+  * Data packets
+
+---
+
+# 🔹 **5. How to Perform the Practical (Simple Steps)**
+
+### **Using Packet Tracer**
+
+1. Setup:
+
+   * 2 PCs + 1 Server
+   * Connect via Switch
+   * Assign IPs
+2. Configure server:
+
+   * Enable **HTTP** service
+   * Enable **FTP** service
+3. On PC, open **Web Browser**:
+
+   * Type server IP → measure load time
+4. On same PC, open **FTP client**:
+
+   * Type server IP → login → download file
+5. Compare:
+
+   * Number of packets
+   * Time to transfer
+   * Size of transferred data
+
+### **Using Wireshark**
+
+* Capture packets for HTTP and FTP
+* Observe:
+
+  * TCP handshake
+  * HTTP GET/Response
+  * FTP Control (port 21)
+  * FTP Data (port 20)
+
+---
+
+# 🔹 **6. Observations to Write in Journal**
+
+### **HTTP Observations:**
+
+* Less overhead
+* Single connection → faster
+* Lower latency for webpage load
+* Works best for text content, images
+
+### **FTP Observations:**
+
+* Two connections increase overhead
+* Secure file transfer requires SFTP/FTPS
+* More reliable for large file transfer
+* Slower initial response due to authentication
+
+---
+
+# 🔹 **7. Conclusion (Write This Exactly)**
+
+**“HTTP performs faster for simple webpage content because it uses a lightweight request-response model with a single TCP connection. FTP, although slower due to authentication and dual connections, is more reliable for transferring large files. HTTP is preferred for browsing, while FTP is used for file uploading/downloading operations.”**
+
+---
+
+# 🔹 **8. Viva Questions & Answers (Important)**
+
+### **Q1. What is the main difference between HTTP and FTP?**
+
+HTTP transfers webpage content; FTP transfers files.
+
+### **Q2. Why does FTP use two ports?**
+
+One for control (21), one for data (20).
+
+### **Q3. Which is faster — HTTP or FTP?**
+
+HTTP is faster for small data; FTP is stable for large files.
+
+### **Q4. Which layer do HTTP & FTP work on?**
+
+Both work on **Application Layer** (OSI Layer 7).
+
+### **Q5. Which protocol is secure?**
+
+Neither — unless HTTPS or FTPS/SFTP is used.
+
+### **Q6. Why is FTP slower?**
+
+Because it has authentication + dual TCP connections.
+
+### **Q7. Why use FTP instead of HTTP?**
+
+For reliable file transfer, directory listing, resume download.
+
+---
+
+If you want, I can now also create a **PDF version** of these notes for your journal or quick revision.
