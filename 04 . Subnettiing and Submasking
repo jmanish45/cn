@@ -143,3 +143,58 @@ int main() {
 }
 
 
+------------------------------CIDR-----------------------------------
+Here’s the **cleanest, simplest, exam-perfect definition of CIDR** you’ll ever need — no confusion, just clarity:
+
+---
+
+# ⭐ **CIDR – Definition (Easy Explanation)**
+
+**CIDR (Classless Inter-Domain Routing)** is a method of writing and allocating IP addresses *without using traditional Class A, B, C boundaries.*
+Instead of fixed classes, CIDR uses a **prefix** to show how many bits belong to the *network portion* of the IP address.
+
+It is written like this:
+
+### **IP Address / Prefix**
+
+Example: **192.168.1.0/24**
+
+Here:
+
+* `/24` means **first 24 bits** = network
+* remaining bits = hosts
+
+### ⭐ Why CIDR is used?
+
+* Saves IP addresses (prevents wastage)
+* Allows flexible subnetting (not fixed /8, /16, /24)
+* Improves routing efficiency (reduces routing table size)
+* Helps divide networks into smaller subnets as needed
+
+### ⭐ In Simple Words:
+
+CIDR lets you “cut” an IP block into smaller or larger pieces using `/n` instead of forced Class A/B/C sizes.
+It gives **flexible, efficient, modern IP addressing.**
+
+---
+
+# ⭐ Mini Example:
+
+**192.168.1.0/26**
+
+* /26 means 26 bits for network
+* Remaining 6 bits for hosts → 2⁶ – 2 = **62 hosts**
+
+CIDR allows you to choose exactly the size you need.
+
+---
+
+# ⭐ One-Line Definition for Viva:
+
+**“CIDR is a classless addressing method that uses variable-length subnet masks written as a prefix (/n) to efficiently allocate IP addresses.”**
+
+---
+
+If you want, I can explain **CIDR vs Subnetting**, or give you **CIDR practice problems** to master it fast.
+
+
