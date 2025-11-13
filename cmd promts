@@ -1,0 +1,4 @@
+Cisco paket tracer commands :
+ip addr of device : ipconfig
+macaddr of dev : ipconfig /all
+to check connection : ping 10.10.10.2 (ip add of other device checked in cmd promot of one device)  -> 4 packets are send and 4 are received 
