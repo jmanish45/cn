@@ -1,0 +1,223 @@
+
+# ⚙️ **TCP & UDP Socket Programming — Simple Notes**
+
+---
+
+## 🧠 **1. What is a Socket?**
+
+* A **socket** is like a **door** through which two programs communicate over a network.
+* It’s an **endpoint** for sending or receiving data.
+* A socket is identified by:
+
+  ```
+  <IP Address> + <Port Number>
+  ```
+
+---
+
+## 🌐 **2. What is TCP?**
+
+**TCP (Transmission Control Protocol)**
+
+* It is **connection-oriented** → like a phone call (both sides talk reliably).
+* Ensures **data delivery**, **in order**, and **without loss**.
+* Used where reliability matters (e.g., web browsing, emails).
+
+---
+
+### ✅ **TCP Features**
+
+| Feature         | Description                                        |
+| --------------- | -------------------------------------------------- |
+| Connection Type | Connection-oriented (needs connection setup first) |
+| Reliability     | Guaranteed delivery and correct order              |
+| Communication   | Full duplex (send & receive at the same time)      |
+| Error Checking  | Yes (via acknowledgments)                          |
+| Example Apps    | HTTP, FTP, Email, SSH                              |
+
+---
+
+### 🖥️ **TCP Workflow (Step-by-Step)**
+
+#### SERVER SIDE:
+
+1. **Create socket** → to establish communication.
+2. **Bind** → attach socket to an IP and port.
+3. **Listen** → wait for client.
+4. **Accept** → accept client connection.
+5. **Send/Receive data** → read/write messages.
+6. **Close** → release the connection.
+
+#### CLIENT SIDE:
+
+1. **Create socket**
+2. **Connect** → to server IP and port.
+3. **Send/Receive data**
+4. **Close connection**
+
+---
+
+### 💬 **Java Example (Simplified)**
+
+#### **TCP Server**
+
+```java
+ServerSocket ss = new ServerSocket(12345);
+Socket s = ss.accept();
+BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+String msg = in.readLine();
+out.println("Hello Client!");
+s.close();
+ss.close();
+```
+
+#### **TCP Client**
+
+```java
+Socket s = new Socket("localhost", 12345);
+BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+out.println("Hello Server!");
+String reply = in.readLine();
+s.close();
+```
+
+---
+
+### 💡 **TCP Key Points**
+
+* Must start **server first** (to listen for clients).
+* Uses **three-way handshake** (SYN, SYN-ACK, ACK).
+* Works at **Transport Layer (Layer 4)** of OSI Model.
+* Common Ports:
+
+  * HTTP → 80
+  * HTTPS → 443
+  * FTP → 21
+  * SSH → 22
+
+---
+
+## ⚡ **3. What is UDP?**
+
+**UDP (User Datagram Protocol)**
+
+* It is **connectionless** → like sending letters by post (no guarantee it’ll reach).
+* Faster but **unreliable**.
+* Used where **speed** matters more than accuracy (like video calls, games).
+
+---
+
+### ✅ **UDP Features**
+
+| Feature         | Description                        |
+| --------------- | ---------------------------------- |
+| Connection Type | Connectionless (no handshake)      |
+| Reliability     | Not guaranteed                     |
+| Speed           | Very fast                          |
+| Order           | May be out of order                |
+| Error Checking  | Minimal                            |
+| Example Apps    | DNS, Streaming, Online Games, VoIP |
+
+---
+
+### 🧩 **UDP Workflow (Step-by-Step)**
+
+#### SERVER SIDE:
+
+1. **Create socket** (Datagram type).
+2. **Bind** to IP and port.
+3. **Receive packet**.
+4. **Send reply packet**.
+5. **Close**.
+
+#### CLIENT SIDE:
+
+1. **Create socket**.
+2. **Send packet** to server IP and port.
+3. **Receive reply packet**.
+4. **Close**.
+
+---
+
+### 💬 **Java Example (Simplified)**
+
+#### **UDP Server**
+
+```java
+DatagramSocket ds = new DatagramSocket(12345);
+byte[] buf = new byte[1024];
+DatagramPacket dp = new DatagramPacket(buf, buf.length);
+ds.receive(dp);
+String msg = new String(dp.getData());
+System.out.println("Client: " + msg);
+ds.close();
+```
+
+#### **UDP Client**
+
+```java
+DatagramSocket ds = new DatagramSocket();
+InetAddress ip = InetAddress.getByName("localhost");
+byte[] buf = "Hello Server".getBytes();
+DatagramPacket dp = new DatagramPacket(buf, buf.length, ip, 12345);
+ds.send(dp);
+ds.close();
+```
+
+---
+
+### 💡 **UDP Key Points**
+
+* **No connection** — data sent directly as packets.
+* **Fast but unreliable** — packets may drop or arrive out of order.
+* Works at **Transport Layer (Layer 4)**.
+* Common Ports:
+
+  * DNS → 53
+  * DHCP → 67/68
+  * TFTP → 69
+
+---
+
+## 🧭 **4. TCP vs UDP Comparison Table**
+
+| Feature        | TCP                       | UDP                   |
+| -------------- | ------------------------- | --------------------- |
+| Type           | Connection-oriented       | Connectionless        |
+| Reliability    | Reliable                  | Unreliable            |
+| Speed          | Slower                    | Faster                |
+| Header Size    | 20 bytes                  | 8 bytes               |
+| Acknowledgment | Yes                       | No                    |
+| Error Checking | Strong                    | Basic                 |
+| Flow Control   | Yes                       | No                    |
+| Use Case       | Web, Email, File Transfer | Video, DNS, Streaming |
+
+---
+
+## 🧠 **5. Viva & Exam Key Points**
+
+| Question                            | Short Answer                                                    |
+| ----------------------------------- | --------------------------------------------------------------- |
+| What is TCP?                        | Reliable, connection-oriented protocol.                         |
+| What is UDP?                        | Unreliable, connectionless protocol.                            |
+| Which layer they belong to?         | Transport Layer (OSI Layer 4).                                  |
+| What is a port number?              | Identifies a specific process/service on a host.                |
+| Which one is faster?                | UDP (no connection setup).                                      |
+| Why TCP is reliable?                | It uses acknowledgments, retransmissions, and sequence numbers. |
+| Why UDP is used for live streaming? | Because it’s faster and delay matters more than accuracy.       |
+| Example of TCP app                  | HTTP, FTP, SMTP                                                 |
+| Example of UDP app                  | DNS, YouTube, Zoom, Games                                       |
+
+---
+
+## 🧾 **Summary**
+
+* TCP → Reliable, ordered, connection-based (slow but accurate).
+* UDP → Fast, lightweight, connectionless (quick but may drop packets).
+* Both are used at **Transport Layer** and use **port numbers** to identify applications.
+
+---
+
+Would you like me to make this into a **1-page “TCP vs UDP Viva Quick Revision PDF”** — nicely formatted and printable for your practical? It’ll be perfect for last-minute revision.
